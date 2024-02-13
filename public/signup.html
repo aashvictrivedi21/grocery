@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basket Bliss</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+    <div class="center1">
+        <h1>Basket Bliss</h1>
+        <h5>One-Stop Shop For All Your Needs!</h5>
+        <form id="signupForm" action="/signup" method="POST" enctype="application/json">
+            <div class="txt_field">
+                <input type="text" id="emailOrMobile" name="emailOrMobile" required>
+                <label>Mobile Number/Email</label>
+            </div>
+            <div class="txt_field">
+                <input type="password" id="password" name="password" required>
+                <label>Create Password</label>
+            </div>
+            <div class="pass"><a href="/login">Already a member?</a></div>
+            <input type="submit" value="Signup">
+        </form>        
+    </div>
+</body>
+</html>
