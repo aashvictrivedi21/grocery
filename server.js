@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -9,20 +10,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
   }));
-const firebaseConfig = {
-    apiKey: "AIzaSyBtS3QLSpW134WJ5noPjboZVOngg45oUok",
-    authDomain: "groceryapp-3f109.firebaseapp.com",
-    projectId: "groceryapp-3f109",
-    storageBucket: "groceryapp-3f109.appspot.com",
-    messagingSenderId: "786809648991",
-    appId: "1:786809648991:web:c16d3a84db4a0db3e8e8ea",
-    measurementId: "G-RG8FXJGVCN"
-};
 
 const serviceAccount = require("C:/Users/bhavya/Desktop/grocery/key.json");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
   });
+
 const db = admin.firestore();
 
 app.use((req, res, next) => {
@@ -57,7 +50,7 @@ app.post('/login', async (req, res) => {
         if (password !== storedPassword) {
             return res.status(401).json({ message: 'Incorrect password' });
         }
-        res.json({ message: 'Login successful' });
+        res.redirect('/products');
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Login failed' });
@@ -68,11 +61,20 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/login.html'));
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/home.html'));
+});
+
 // Route for serving signup.html
 app.get('/signup', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/signup.html'));
 });
 
+
+// Serve the products page if the user is authenticated
+app.get('/products', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/products.html'));
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
